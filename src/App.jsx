@@ -4,6 +4,7 @@ import axios from 'axios';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 import Dashboard from './pages/Dashboard';
+import GuruDashboard from './pages/GuruDashboard';
 import Users from './pages/Users';
 import Login from './pages/Login';
 import './index.css';
@@ -53,8 +54,8 @@ function App() {
           <Topbar user={auth.user} onLogout={handleLogout} />
           <main className="flex-1 overflow-y-auto overflow-x-hidden">
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/users" element={<Users />} />
+              <Route path="/" element={auth.user?.role === 'guru' ? <GuruDashboard /> : <Dashboard />} />
+              <Route path="/users" element={auth.user?.role === 'guru' ? <Navigate to="/" /> : <Users />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </main>

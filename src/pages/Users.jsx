@@ -116,6 +116,8 @@ const Users = () => {
                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${
                       u.role === 'admin' 
                         ? 'bg-primary/10 text-primary border-primary/20' 
+                        : u.role === 'guru'
+                        ? 'bg-orange-500/10 text-orange-400 border-orange-500/20'
                         : 'bg-green-500/10 text-green-400 border-green-500/20'
                     }`}>
                       {u.role === 'admin' ? <IconShieldCheck size={14} /> : <IconUser size={14} />}
@@ -139,6 +141,7 @@ const Users = () => {
                         className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none focus:border-primary/50 cursor-pointer"
                       >
                         <option value="user">User</option>
+                        <option value="guru">Guru</option>
                         <option value="admin">Admin</option>
                       </select>
                       

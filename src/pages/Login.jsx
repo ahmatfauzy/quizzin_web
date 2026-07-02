@@ -22,8 +22,8 @@ const Login = ({ setAuth }) => {
       const res = await axios.post(`${API_URL}/auth/login`, { email, password });
       const { access_token, user } = res.data;
       
-      if (user.role !== 'admin') {
-        setError('Access denied. Admin only.');
+      if (user.role !== 'admin' && user.role !== 'guru') {
+        setError('Access denied. Admin or Guru only.');
         setLoading(false);
         return;
       }

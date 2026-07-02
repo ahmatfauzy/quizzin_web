@@ -5,6 +5,9 @@ import { motion } from 'framer-motion';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const userStr = localStorage.getItem('admin_user');
+  const user = userStr ? JSON.parse(userStr) : null;
+  const isGuru = user?.role === 'guru';
 
   return (
     <motion.div 
@@ -44,20 +47,22 @@ const Sidebar = () => {
           {!isCollapsed && <span>Overview</span>}
         </NavLink>
         
-        <NavLink 
-          to="/users" 
-          title="User Management"
-          className={({ isActive }) => 
-            `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
-              isActive 
-                ? 'bg-primary/10 text-primary font-medium' 
-                : 'text-muted hover:bg-white/5 hover:text-white'
-            } ${isCollapsed ? 'justify-center w-12 h-12' : ''}`
-          }
-        >
-          <IconUsersGroup size={20} className="shrink-0" />
-          {!isCollapsed && <span>User Management</span>}
-        </NavLink>
+        {!isGuru && (
+          <NavLink 
+            to="/users" 
+            title="User Management"
+            className={({ isActive }) => 
+              `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
+                isActive 
+                  ? 'bg-primary/10 text-primary font-medium' 
+                  : 'text-muted hover:bg-white/5 hover:text-white'
+              } ${isCollapsed ? 'justify-center w-12 h-12' : ''}`
+            }
+          >
+            <IconUsersGroup size={20} className="shrink-0" />
+            {!isCollapsed && <span>User Management</span>}
+          </NavLink>
+        )}
       </div>
 
       {!isCollapsed && (
