@@ -1,28 +1,43 @@
 import React from 'react';
-import { IconSearch, IconBell, IconLogout } from '@tabler/icons-react';
+import { IconLogout, IconMenu2, IconSun, IconMoon } from '@tabler/icons-react';
+import { useLocation } from 'react-router-dom';
 
-const Topbar = ({ user, onLogout }) => {
+const Topbar = ({ user, onLogout, onMenuClick, isDark, toggleTheme }) => {
+  const location = useLocation();
+  const getMenuName = () => {
+    switch (location.pathname) {
+      case '/': return user?.role === 'guru' ? 'Guru Dashboard' : 'Overview';
+      case '/quiz-analytics': return 'Quiz Analytics';
+      case '/global-trends': return 'Global Trends';
+      case '/users': return 'Users Management';
+      case '/documents': return 'Documents Management';
+      default: return 'Dashboard';
+    }
+  };
+
   return (
-    <div className="h-20 px-8 flex items-center justify-between border-b border-white/5 bg-background/80 backdrop-blur-md sticky top-0 z-10">
-      <div className="flex items-center gap-2 text-muted bg-surface px-4 py-2 rounded-full border border-white/5 w-96 focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/50 transition-all">
-        <IconSearch size={18} />
-        <input 
-          type="text" 
-          placeholder="Search anywhere..." 
-          className="bg-transparent border-none text-white outline-none text-sm w-full placeholder-white/30"
-        />
+    <div className="h-20 px-4 md:px-8 flex items-center justify-between border-b border-white/5 bg-background/80 backdrop-blur-md sticky top-0 z-10">
+      <div className="flex items-center gap-2 md:gap-4 text-muted font-medium">
+        <button onClick={onMenuClick} className="md:hidden text-white hover:text-primary transition-colors">
+          <IconMenu2 size={24} />
+        </button>
+        <span className="text-gray-400 hidden sm:inline">Dashboard</span>
+        <span className="text-gray-500 hidden sm:inline">/</span>
+        <span className="text-white text-sm md:text-base">{getMenuName()}</span>
       </div>
       
-      <div className="flex items-center gap-6">
-        <button className="relative text-muted hover:text-white transition-colors">
-          <IconBell size={22} />
-          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-background"></span>
+      <div className="flex items-center gap-4 md:gap-6">
+        
+        <button 
+          onClick={toggleTheme}
+          className="p-2 text-muted hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+          title="Toggle Theme"
+        >
+          {isDark ? <IconSun size={20} /> : <IconMoon size={20} />}
         </button>
-        
-        <div className="h-8 w-px bg-white/10"></div>
-        
+
         <div className="flex items-center gap-3">
-          <div className="flex flex-col items-end">
+          <div className="hidden md:flex flex-col items-end">
             <span className="text-sm font-semibold text-white">{user?.full_name || 'Admin User'}</span>
             <span className="text-xs text-muted">Administrator</span>
           </div>

@@ -6,6 +6,9 @@ import Topbar from './components/Topbar';
 import Dashboard from './pages/Dashboard';
 import GuruDashboard from './pages/GuruDashboard';
 import Users from './pages/Users';
+import Documents from './pages/Documents';
+import QuizAnalytics from './pages/QuizAnalytics';
+import GlobalTrends from './pages/GlobalTrends';
 import Login from './pages/Login';
 import './index.css';
 
@@ -18,6 +21,26 @@ function App() {
       user: userStr ? JSON.parse(userStr) : null
     };
   });
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  // Theme Management
+  const [isDark, setIsDark] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) return savedTheme === 'dark';
+    return true; // Default to dark mode
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
+
+  const toggleTheme = () => setIsDark(!isDark);
 
   useEffect(() => {
     const interceptor = axios.interceptors.request.use((config) => {
@@ -48,14 +71,30 @@ function App() {
 
   return (
     <Router>
-      <div className="flex h-screen bg-background overflow-hidden text-white font-sans antialiased">
-        <Sidebar />
-        <div className="flex-1 flex flex-col overflow-hidden relative">
-          <Topbar user={auth.user} onLogout={handleLogout} />
+      <div className="flex h-screen bg-background overflow-hidden text-white font-sans antialiased relative">
+        {/* Mobile Overlay */}
+        {isMobileSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-30 md:hidden backdrop-blur-sm transition-opacity" 
+            onClick={() => setMobileSidebarOpen(false)}
+          />
+        )}
+        <Sidebar isOpenMobile={isMobileSidebarOpen} setIsOpenMobile={setMobileSidebarOpen} />
+        <div className="flex-1 flex flex-col overflow-hidden relative w-full">
+          <Topbar 
+            user={auth.user} 
+            onLogout={handleLogout} 
+            onMenuClick={() => setMobileSidebarOpen(true)} 
+            isDark={isDark} 
+            toggleTheme={toggleTheme} 
+          />
           <main className="flex-1 overflow-y-auto overflow-x-hidden">
             <Routes>
               <Route path="/" element={auth.user?.role === 'guru' ? <GuruDashboard /> : <Dashboard />} />
               <Route path="/users" element={auth.user?.role === 'guru' ? <Navigate to="/" /> : <Users />} />
+              <Route path="/documents" element={<Documents />} />
+              <Route path="/quiz-analytics" element={<QuizAnalytics />} />
+              <Route path="/global-trends" element={<GlobalTrends />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </main>
