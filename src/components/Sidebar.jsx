@@ -20,10 +20,8 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
       className={`bg-surface border-r border-white/5 flex flex-col h-screen shrink-0 fixed md:relative z-40 transition-transform duration-300 md:translate-x-0 ${isOpenMobile ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className={`flex items-center gap-3 p-6 ${isCollapsed ? 'justify-center' : ''}`}>
-        <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-lg shrink-0">
-          <span className="text-background font-bold text-lg">Q</span>
-        </div>
-        {!isCollapsed && <motion.span initial={{opacity: 0}} animate={{opacity: 1}} className="text-xl font-bold text-white tracking-wide">Quizzin</motion.span>}
+        <img src="/logo/logoblue.png" alt="Quizzin" className={`object-contain dark:hidden block ${isCollapsed ? 'h-8' : 'h-10'}`} />
+        <img src="/logo/logowhite.png" alt="Quizzin" className={`object-contain hidden dark:block ${isCollapsed ? 'h-8' : 'h-10'}`} />
       </div>
       
       <div className={`flex flex-col gap-2 px-4 ${isCollapsed ? 'items-center' : ''}`}>

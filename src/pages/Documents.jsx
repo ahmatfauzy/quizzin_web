@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconFileText, IconTrash, IconEye, IconUpload, IconLoader, IconCheck, IconX, IconFile } from '@tabler/icons-react';
+import { IconFileText, IconTrash, IconEye, IconUpload, IconLoader, IconCheck, IconX, IconFile, IconUsers, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import SkeletonLoader from '../components/SkeletonLoader';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
@@ -22,6 +23,25 @@ const Documents = () => {
   
   // QR Preview Modal State
   const [previewDoc, setPreviewDoc] = useState(null);
+
+  // Scanners Modal State
+  const [scannersDoc, setScannersDoc] = useState(null);
+  const [scannersList, setScannersList] = useState([]);
+  const [loadingScanners, setLoadingScanners] = useState(false);
+  const navigate = useNavigate();
+
+  const handleViewScanners = async (doc) => {
+    setScannersDoc(doc);
+    setLoadingScanners(true);
+    try {
+      const res = await axios.get(`${API_URL}/documents/${doc.id}/scanners`);
+      setScannersList(res.data.scanners || []);
+    } catch (err) {
+      console.error("Error fetching scanners:", err);
+    } finally {
+      setLoadingScanners(false);
+    }
+  };
 
   const fetchDocuments = async () => {
     try {
@@ -165,6 +185,15 @@ const Documents = () => {
                           {doc.status.toUpperCase()}
                         </span>
                         <span className="text-muted">{doc.uploaded_label || new Date(doc.created_at).toLocaleDateString()}</span>
+                        {doc.status === 'ready' && (
+                          <button
+                            onClick={() => handleViewScanners(doc)}
+                            className="ml-auto flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors border border-primary/20"
+                          >
+                            <IconUsers size={14} />
+                            View Results
+                          </button>
+                        )}
                       </div>
                     </div>
                     
@@ -295,6 +324,87 @@ const Documents = () => {
               </div>
               
               <p className="text-xs font-semibold text-primary uppercase tracking-wider">Quizzin App</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Scanners Modal */}
+      <AnimatePresence>
+        {scannersDoc && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setScannersDoc(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm cursor-pointer"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-surface border border-white/10 p-6 rounded-2xl shadow-2xl flex flex-col max-w-2xl w-full relative cursor-default max-h-[80vh]"
+            >
+              <button 
+                onClick={() => setScannersDoc(null)}
+                className="absolute top-4 right-4 text-muted hover:text-white bg-white/5 hover:bg-white/10 rounded-full p-1 transition-colors"
+              >
+                <IconX size={20} />
+              </button>
+              
+              <h3 className="text-xl font-bold text-white mb-1">Student Results</h3>
+              <p className="text-sm text-muted mb-6">{scannersDoc.title}</p>
+              
+              <div className="overflow-y-auto flex-1 pr-2 space-y-3 custom-scrollbar">
+                {loadingScanners ? (
+                  <div className="flex justify-center items-center py-12">
+                    <IconLoader size={32} className="animate-spin text-primary" />
+                  </div>
+                ) : scannersList.length === 0 ? (
+                  <div className="text-center py-12 text-muted border border-dashed border-white/10 rounded-xl">
+                    No students have scanned this document yet.
+                  </div>
+                ) : (
+                  scannersList.map((student, i) => (
+                    <div 
+                      key={i} 
+                      className="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors cursor-pointer"
+                      onClick={() => {
+                        setScannersDoc(null);
+                        navigate(`/documents/${scannersDoc.id}/scanners/${student.user_id}`);
+                      }}
+                    >
+                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden shrink-0">
+                        {student.avatar_url ? <img src={student.avatar_url} alt="avatar" className="w-full h-full object-cover" /> : student.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-white font-medium truncate">{student.name}</div>
+                        <div className="text-xs text-muted truncate">{student.email}</div>
+                      </div>
+                      <div className="flex gap-4 text-right shrink-0">
+                        <div>
+                          <div className="text-xs text-muted">Attempts</div>
+                          <div className="text-sm font-semibold text-white">{student.total_attempts}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-muted">Total Score</div>
+                          <div className="text-sm font-semibold text-white">{student.total_score}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-muted">Mastery</div>
+                          <div className={`text-sm font-semibold ${student.average_mastery >= 80 ? 'text-green-400' : student.average_mastery >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
+                            {student.average_mastery.toFixed(1)}%
+                          </div>
+                        </div>
+                        <div className="text-muted opacity-50 pl-2 border-l border-white/10 flex items-center justify-center">
+                          <IconChevronRight size={18} />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </motion.div>
           </motion.div>
         )}

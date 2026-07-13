@@ -10,6 +10,7 @@ import Documents from './pages/Documents';
 import QuizAnalytics from './pages/QuizAnalytics';
 import GlobalTrends from './pages/GlobalTrends';
 import Login from './pages/Login';
+import StudentDetail from './pages/StudentDetail';
 import './index.css';
 
 function App() {
@@ -93,6 +94,7 @@ function App() {
               <Route path="/" element={auth.user?.role === 'guru' ? <GuruDashboard /> : <Dashboard />} />
               <Route path="/users" element={auth.user?.role === 'guru' ? <Navigate to="/" /> : <Users />} />
               <Route path="/documents" element={<Documents />} />
+              <Route path="/documents/:document_id/scanners/:user_id" element={<StudentDetail />} />
               <Route path="/quiz-analytics" element={<QuizAnalytics />} />
               <Route path="/global-trends" element={<GlobalTrends />} />
               <Route path="*" element={<Navigate to="/" />} />

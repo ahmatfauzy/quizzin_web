@@ -56,8 +56,9 @@ const Login = ({ setAuth }) => {
       >
         <div className="card-glass p-8 mx-4">
           <div className="flex flex-col items-center mb-8">
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-white/10">
-              <IconDeviceDesktopAnalytics className="text-background" size={28} />
+            <div className="flex justify-center mb-6">
+              <img src="/logo/logoblue.png" alt="Quizzin" className="h-12 object-contain dark:hidden block" />
+              <img src="/logo/logowhite.png" alt="Quizzin" className="h-12 object-contain hidden dark:block" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-1">Welcome Back</h2>
             <p className="text-muted text-sm">Sign in to Quizzin Admin Dashboard</p>
