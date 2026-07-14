@@ -17,7 +17,7 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
     <motion.div 
       initial={false}
       animate={{ width: isCollapsed ? 80 : 256 }}
-      className={`bg-surface border-r border-white/5 flex flex-col h-screen shrink-0 fixed md:relative z-40 transition-transform duration-300 md:translate-x-0 ${isOpenMobile ? 'translate-x-0' : '-translate-x-full'}`}
+      className={`bg-surface border-r border-gray-200 dark:border-white/5 flex flex-col h-screen shrink-0 fixed md:relative z-40 transition-transform duration-300 md:translate-x-0 ${isOpenMobile ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className={`flex items-center gap-3 p-6 ${isCollapsed ? 'justify-center' : ''}`}>
         <img src="/logo/logoblue.png" alt="Quizzin" className={`object-contain dark:hidden block ${isCollapsed ? 'h-8' : 'h-10'}`} />
@@ -34,7 +34,7 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
             `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
               isActive 
                 ? 'bg-primary/10 text-primary font-medium' 
-                : 'text-muted hover:bg-white/5 hover:text-white'
+                : 'text-muted hover:bg-gray-100 dark:hover:bg-white/5 hover:text-on-surface dark:hover:text-white'
             } ${isCollapsed ? 'justify-center w-12 h-12' : ''}`
           }
         >
@@ -50,7 +50,7 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
                 `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
                   isActive 
                     ? 'bg-primary/10 text-primary font-medium' 
-                    : 'text-muted hover:bg-white/5 hover:text-white'
+                    : 'text-muted hover:bg-gray-100 dark:hover:bg-white/5 hover:text-on-surface dark:hover:text-white'
                 } ${isCollapsed ? 'justify-center w-12 h-12' : ''}`
               }
             >
@@ -65,7 +65,7 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
                 `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
                   isActive 
                     ? 'bg-primary/10 text-primary font-medium' 
-                    : 'text-muted hover:bg-white/5 hover:text-white'
+                    : 'text-muted hover:bg-gray-100 dark:hover:bg-white/5 hover:text-on-surface dark:hover:text-white'
                 } ${isCollapsed ? 'justify-center w-12 h-12' : ''}`
               }
             >
@@ -79,7 +79,7 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
                 `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
                   isActive 
                     ? 'bg-primary/10 text-primary font-medium' 
-                    : 'text-muted hover:bg-white/5 hover:text-white'
+                    : 'text-muted hover:bg-gray-100 dark:hover:bg-white/5 hover:text-on-surface dark:hover:text-white'
                 } ${isCollapsed ? 'justify-center w-12 h-12' : ''}`
               }
             >
@@ -96,7 +96,7 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
             `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
               isActive 
                 ? 'bg-primary/10 text-primary font-medium' 
-                : 'text-muted hover:bg-white/5 hover:text-white'
+                : 'text-muted hover:bg-gray-100 dark:hover:bg-white/5 hover:text-on-surface dark:hover:text-white'
             } ${isCollapsed ? 'justify-center w-12 h-12' : ''}`
           }
         >
@@ -105,10 +105,10 @@ const Sidebar = ({ isOpenMobile, setIsOpenMobile }) => {
         </NavLink>
       </div>
 
-      <div className="mt-auto border-t border-white/5 p-4 flex justify-center">
+      <div className="mt-auto border-t border-gray-200 dark:border-white/5 p-4 flex justify-center">
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden md:flex items-center gap-2 text-muted hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5 w-full justify-center"
+          className="hidden md:flex items-center gap-2 text-muted hover:text-on-surface dark:hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 w-full justify-center"
         >
           {isCollapsed ? <IconChevronRight size={20} /> : (
             <>

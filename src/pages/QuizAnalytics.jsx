@@ -7,7 +7,7 @@ import {
 import { motion } from 'framer-motion';
 import SkeletonLoader from '../components/SkeletonLoader';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const QuizAnalytics = () => {
   const [trendData, setTrendData] = useState(null);
@@ -47,7 +47,7 @@ const QuizAnalytics = () => {
   return (
     <div className="p-8">
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-2">Quiz Analytics</h1>
+        <h1 className="text-2xl font-bold text-on-surface dark:text-white mb-2">Quiz Analytics</h1>
         <p className="text-muted text-sm">Monitor quiz engagement and performance trends over time.</p>
       </motion.div>
 
@@ -55,11 +55,11 @@ const QuizAnalytics = () => {
         {/* Quiz Avg Score Trend */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card-glass p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-white">Quiz Avg Score Trend</h3>
+            <h3 className="text-lg font-semibold text-on-surface dark:text-white">Quiz Avg Score Trend</h3>
             <select 
               value={trendPeriod}
               onChange={(e) => setTrendPeriod(e.target.value)}
-              className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
+              className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
             >
               <option value="all">All Time</option>
               <option value="90d">Last 90 Days</option>
@@ -79,7 +79,7 @@ const QuizAnalytics = () => {
                 </LineChart>
               </ResponsiveContainer>
             ) : trendData ? (
-              <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-white/10 rounded-xl">No sufficient data for this period</div>
+              <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-gray-200 dark:border-white/10 rounded-xl">No sufficient data for this period</div>
             ) : (
               <div className="flex items-center justify-center h-full"><div className="spinner"></div></div>
             )}
@@ -89,11 +89,11 @@ const QuizAnalytics = () => {
         {/* Peak Activity Times */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="card-glass p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-white">Peak Activity Times</h3>
+            <h3 className="text-lg font-semibold text-on-surface dark:text-white">Peak Activity Times</h3>
             <select 
               value={peakPeriod}
               onChange={(e) => setPeakPeriod(e.target.value)}
-              className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
+              className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
             >
               <option value="all">All Time</option>
               <option value="90d">Last 90 Days</option>
@@ -113,7 +113,7 @@ const QuizAnalytics = () => {
                 </BarChart>
               </ResponsiveContainer>
             ) : peakData ? (
-              <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-white/10 rounded-xl">No sufficient data for this period</div>
+              <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-gray-200 dark:border-white/10 rounded-xl">No sufficient data for this period</div>
             ) : (
               <div className="flex items-center justify-center h-full"><div className="spinner"></div></div>
             )}

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconFileText, IconTrash, IconEye, IconUpload, IconLoader, IconCheck, IconX, IconFile, IconUsers, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { IconFileText, IconUpload, IconLoader, IconCheck, IconX, IconFile, IconUsers, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import SkeletonLoader from '../components/SkeletonLoader';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Documents = () => {
   const [documents, setDocuments] = useState([]);
@@ -105,7 +105,7 @@ const Documents = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-2xl font-bold text-white mb-2">Documents Management</h1>
+        <h1 className="text-2xl font-bold text-on-surface dark:text-white mb-2">Documents Management</h1>
         <p className="text-muted text-sm">
           {isGuru ? "Upload and manage your modules and generate QR codes." : "View and manage all uploaded documents across the platform."}
         </p>
@@ -113,7 +113,7 @@ const Documents = () => {
 
       {isGuru && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card-glass p-6 mb-8">
-          <h2 className="text-xl font-semibold text-white mb-4">Upload Module</h2>
+          <h2 className="text-xl font-semibold text-on-surface dark:text-white mb-4">Upload Module</h2>
           {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-lg text-sm mb-4">{error}</div>}
           
           <form onSubmit={handleUpload} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
@@ -123,7 +123,7 @@ const Documents = () => {
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full bg-surface border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                className="w-full bg-surface border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2 text-on-surface dark:text-white focus:outline-none focus:border-primary"
                 placeholder="e.g. Chapter 1: Introduction"
               />
             </div>
@@ -137,7 +137,7 @@ const Documents = () => {
                   onChange={(e) => setFile(e.target.files[0])}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
-                <span className="text-sm text-white font-medium truncate">{file ? file.name : 'Select PDF File'}</span>
+                <span className="text-sm text-on-surface dark:text-white font-medium truncate">{file ? file.name : 'Select PDF File'}</span>
               </div>
             </div>
             
@@ -163,15 +163,15 @@ const Documents = () => {
       >
         <div className="overflow-x-auto">
           {documents.length === 0 ? (
-             <div className="py-12 text-center text-muted border border-dashed border-white/10 rounded-xl m-6">
+             <div className="py-12 text-center text-muted border border-dashed border-gray-200 dark:border-white/10 rounded-xl m-6">
                No documents found.
              </div>
           ) : isGuru ? (
              <div className="p-6 space-y-4">
                 {documents.map((doc) => (
-                  <div key={doc.id} className="flex flex-col md:flex-row gap-6 p-4 rounded-xl border border-white/10 bg-surface/30 hover:bg-surface/50 transition-colors">
+                  <div key={doc.id} className="flex flex-col md:flex-row gap-6 p-4 rounded-xl border border-gray-200 dark:border-white/10 bg-surface/30 hover:bg-surface/50 transition-colors">
                     <div className="flex-1 flex flex-col justify-center">
-                      <h3 className="text-lg font-medium text-white mb-1">{doc.title}</h3>
+                      <h3 className="text-lg font-medium text-on-surface dark:text-white mb-1">{doc.title}</h3>
                       <p className="text-sm text-muted flex items-center gap-2 mb-2">
                         <IconFile size={16} />
                         {doc.original_filename}
@@ -224,7 +224,7 @@ const Documents = () => {
           ) : (
              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-surface/50 border-b border-white/5">
+                  <tr className="bg-surface/50 border-b border-gray-200 dark:border-white/5">
                     <th className="py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider">Document Title</th>
                     <th className="py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider">Owner</th>
                     <th className="py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider">Status</th>
@@ -235,21 +235,21 @@ const Documents = () => {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {documents.map((doc, i) => (
-                    <tr key={doc.id} className="hover:bg-white/[0.02] transition-colors">
+                    <tr key={doc.id} className="hover:bg-gray-100/50 dark:hover:bg-white/[0.02] transition-colors">
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
                             <IconFileText size={20} />
                           </div>
                           <div>
-                            <div className="font-medium text-white text-sm max-w-xs truncate" title={doc.title}>{doc.title}</div>
+                            <div className="font-medium text-on-surface dark:text-white text-sm max-w-xs truncate" title={doc.title}>{doc.title}</div>
                             <div className="text-xs text-muted">{doc.total_pages} pages</div>
                           </div>
                         </div>
                       </td>
                       <td className="py-4 px-6">
                         <div>
-                          <div className="font-medium text-white text-sm">{doc.owner_name}</div>
+                          <div className="font-medium text-on-surface dark:text-white text-sm">{doc.owner_name}</div>
                           <div className="text-xs text-muted">{doc.owner_email}</div>
                         </div>
                       </td>
@@ -264,22 +264,13 @@ const Documents = () => {
                           {doc.status?.charAt(0).toUpperCase() + doc.status?.slice(1)}
                         </span>
                       </td>
-                      <td className="py-4 px-6 text-sm text-white">
+                      <td className="py-4 px-6 text-sm text-on-surface dark:text-white">
                         {doc.chapters_count}
                       </td>
                       <td className="py-4 px-6 text-sm text-muted">
                         {new Date(doc.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </td>
-                      <td className="py-4 px-6 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button className="p-1.5 text-muted hover:text-primary hover:bg-primary/10 rounded-md transition-colors" title="View Document">
-                            <IconEye size={18} />
-                          </button>
-                          <button className="p-1.5 text-muted hover:text-red-400 hover:bg-red-500/10 rounded-md transition-colors" title="Delete Document">
-                            <IconTrash size={18} />
-                          </button>
-                        </div>
-                      </td>
+                      <td className="py-4 px-6 text-right"></td>
                     </tr>
                   ))}
                 </tbody>
@@ -344,16 +335,16 @@ const Documents = () => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-surface border border-white/10 p-6 rounded-2xl shadow-2xl flex flex-col max-w-2xl w-full relative cursor-default max-h-[80vh]"
+              className="bg-surface border border-gray-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl flex flex-col max-w-2xl w-full relative cursor-default max-h-[80vh]"
             >
               <button 
                 onClick={() => setScannersDoc(null)}
-                className="absolute top-4 right-4 text-muted hover:text-white bg-white/5 hover:bg-white/10 rounded-full p-1 transition-colors"
+                className="absolute top-4 right-4 text-muted hover:text-on-surface dark:text-white bg-gray-100/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full p-1 transition-colors"
               >
                 <IconX size={20} />
               </button>
               
-              <h3 className="text-xl font-bold text-white mb-1">Student Results</h3>
+              <h3 className="text-xl font-bold text-on-surface dark:text-white mb-1">Student Results</h3>
               <p className="text-sm text-muted mb-6">{scannersDoc.title}</p>
               
               <div className="overflow-y-auto flex-1 pr-2 space-y-3 custom-scrollbar">
@@ -362,14 +353,14 @@ const Documents = () => {
                     <IconLoader size={32} className="animate-spin text-primary" />
                   </div>
                 ) : scannersList.length === 0 ? (
-                  <div className="text-center py-12 text-muted border border-dashed border-white/10 rounded-xl">
+                  <div className="text-center py-12 text-muted border border-dashed border-gray-200 dark:border-white/10 rounded-xl">
                     No students have scanned this document yet.
                   </div>
                 ) : (
                   scannersList.map((student, i) => (
                     <div 
                       key={i} 
-                      className="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors cursor-pointer"
+                      className="flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-white/5 bg-gray-100/20 dark:bg-white/[0.02] hover:bg-gray-100/40 dark:hover:bg-white/[0.04] transition-colors cursor-pointer"
                       onClick={() => {
                         setScannersDoc(null);
                         navigate(`/documents/${scannersDoc.id}/scanners/${student.user_id}`);
@@ -379,17 +370,17 @@ const Documents = () => {
                         {student.avatar_url ? <img src={student.avatar_url} alt="avatar" className="w-full h-full object-cover" /> : student.name.charAt(0).toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-white font-medium truncate">{student.name}</div>
+                        <div className="text-on-surface dark:text-white font-medium truncate">{student.name}</div>
                         <div className="text-xs text-muted truncate">{student.email}</div>
                       </div>
                       <div className="flex gap-4 text-right shrink-0">
                         <div>
                           <div className="text-xs text-muted">Attempts</div>
-                          <div className="text-sm font-semibold text-white">{student.total_attempts}</div>
+                          <div className="text-sm font-semibold text-on-surface dark:text-white">{student.total_attempts}</div>
                         </div>
                         <div>
                           <div className="text-xs text-muted">Total Score</div>
-                          <div className="text-sm font-semibold text-white">{student.total_score}</div>
+                          <div className="text-sm font-semibold text-on-surface dark:text-white">{student.total_score}</div>
                         </div>
                         <div>
                           <div className="text-xs text-muted">Mastery</div>
@@ -397,7 +388,7 @@ const Documents = () => {
                             {student.average_mastery.toFixed(1)}%
                           </div>
                         </div>
-                        <div className="text-muted opacity-50 pl-2 border-l border-white/10 flex items-center justify-center">
+                        <div className="text-muted opacity-50 pl-2 border-l border-gray-200 dark:border-white/10 flex items-center justify-center">
                           <IconChevronRight size={18} />
                         </div>
                       </div>

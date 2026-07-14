@@ -7,7 +7,7 @@ import {
 import { motion } from 'framer-motion';
 import SkeletonLoader from '../components/SkeletonLoader';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const GlobalTrends = () => {
   const [bigData, setBigData] = useState(null);
@@ -57,7 +57,7 @@ const GlobalTrends = () => {
   return (
     <div className="p-8">
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-2">Global Trends (Big Data)</h1>
+        <h1 className="text-2xl font-bold text-on-surface dark:text-white mb-2">Global Trends (Big Data)</h1>
         <p className="text-muted text-sm">Explore macro-level insights and external data correlations.</p>
       </motion.div>
 
@@ -66,13 +66,13 @@ const GlobalTrends = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card-glass p-6">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-lg font-semibold text-white">Global Literacy Rate Trend</h3>
+              <h3 className="text-lg font-semibold text-on-surface dark:text-white">Global Literacy Rate Trend</h3>
               <p className="text-xs text-muted">Averaged across all reported countries</p>
             </div>
             <select 
               value={literacyFilter}
               onChange={(e) => setLiteracyFilter(e.target.value)}
-              className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
+              className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
             >
               <option value="all">2000 - 2023</option>
               <option value="last10">Last 10 Years</option>
@@ -102,11 +102,11 @@ const GlobalTrends = () => {
         {/* Top Countries */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="card-glass p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-white">Top Countries by Literacy</h3>
+            <h3 className="text-lg font-semibold text-on-surface dark:text-white">Top Countries by Literacy</h3>
             <select 
               value={countryFilter}
               onChange={(e) => setCountryFilter(e.target.value)}
-              className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
+              className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
             >
               <option value="top10">Top 10</option>
               <option value="top5">Top 5</option>

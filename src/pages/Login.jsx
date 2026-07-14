@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { IconDeviceDesktopAnalytics } from '@tabler/icons-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = ({ setAuth }) => {
   const [email, setEmail] = useState('');
@@ -41,65 +41,63 @@ const Login = ({ setAuth }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-white relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px]" />
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-primary/[0.07] rounded-full blur-[120px]" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-purple-500/[0.07] rounded-full blur-[120px]" />
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="w-full max-w-md z-10"
-      >
-        <div className="card-glass p-8 mx-4">
-          <div className="flex flex-col items-center mb-8">
-            <div className="flex justify-center mb-6">
-              <img src="/logo/logoblue.png" alt="Quizzin" className="h-12 object-contain dark:hidden block" />
-              <img src="/logo/logowhite.png" alt="Quizzin" className="h-12 object-contain hidden dark:block" />
-            </div>
-            <h2 className="text-2xl font-bold text-white mb-1">Welcome Back</h2>
-            <p className="text-muted text-sm">Sign in to Quizzin Admin Dashboard</p>
+      <div className="flex-1 flex items-center justify-center relative z-10 p-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="w-full max-w-sm"
+        >
+          <div className="text-center mb-10">
+            <img src="/logo/logoblue.png" alt="Quizzin" className="h-16 object-contain mx-auto mb-6" />
           </div>
+
+          <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">Welcome Back</h2>
+          <p className="text-gray-500 mb-10 text-center">Sign in to your admin dashboard</p>
 
           {error && (
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm mb-6 text-center"
+              className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl text-sm mb-8 text-center"
             >
               {error}
             </motion.div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-muted">Email Address</label>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-2 block">Email Address</label>
               <input 
                 type="email" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
-                className="w-full bg-surface border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-[15px]"
                 placeholder="admin@quizzin.com" 
                 required 
               />
             </div>
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-muted">Password</label>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-2 block">Password</label>
               <input 
                 type="password" 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
-                className="w-full bg-surface border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-[15px]"
                 placeholder="••••••••" 
                 required 
               />
             </div>
             <button 
               type="submit" 
-              className="btn-primary w-full mt-2"
+              className="w-full bg-primary text-white rounded-xl px-5 py-3.5 font-semibold text-[15px] hover:bg-primary/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               disabled={loading}
             >
               {loading ? (
@@ -110,8 +108,8 @@ const Login = ({ setAuth }) => {
               ) : 'Sign In'}
             </button>
           </form>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconShieldCheck, IconUser, IconTrash, IconActivity, IconX } from '@tabler/icons-react';
+import { IconShieldCheck, IconUser, IconActivity, IconX } from '@tabler/icons-react';
 import { 
   LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer
 } from 'recharts';
 import SkeletonLoader from '../components/SkeletonLoader';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -105,7 +105,7 @@ const Users = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-2xl font-bold text-white mb-2">User Management & Analytics</h1>
+        <h1 className="text-2xl font-bold text-on-surface dark:text-white mb-2">User Management & Analytics</h1>
         <p className="text-muted text-sm">Analyze user roles and manage user access across the Quizzin platform.</p>
       </motion.div>
 
@@ -115,11 +115,11 @@ const Users = () => {
           {/* User Roles Chart */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card-glass p-6 flex flex-col">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-white">User Roles</h3>
+              <h3 className="text-lg font-semibold text-on-surface dark:text-white">User Roles</h3>
               <select 
                 value={rolePeriod}
                 onChange={(e) => setRolePeriod(e.target.value)}
-                className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
+                className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
               >
                 <option value="all">All Time</option>
                 <option value="90d">Last 90 Days</option>
@@ -141,7 +141,7 @@ const Users = () => {
                     </PieChart>
                   </ResponsiveContainer>
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none flex-col">
-                    <span className="text-3xl font-bold text-white">{roleData.summary.total_users}</span>
+                    <span className="text-3xl font-bold text-on-surface dark:text-white">{roleData.summary.total_users}</span>
                     <span className="text-xs text-muted">Total</span>
                   </div>
                 </>
@@ -149,21 +149,21 @@ const Users = () => {
                 <div className="spinner"></div>
               )}
             </div>
-            <div className="flex justify-around mt-6 pt-4 border-t border-white/5">
-              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-primary"></div><span className="text-sm font-medium text-white">{adminRatio}% Admin</span></div>
-              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-orange-500"></div><span className="text-sm font-medium text-white">{guruRatio}% Guru</span></div>
-              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-green-500"></div><span className="text-sm font-medium text-white">{userRatio}% Regular</span></div>
+            <div className="flex justify-around mt-6 pt-4 border-t border-gray-200 dark:border-white/5">
+              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-primary"></div><span className="text-sm font-medium text-on-surface dark:text-white">{adminRatio}% Admin</span></div>
+              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-orange-500"></div><span className="text-sm font-medium text-on-surface dark:text-white">{guruRatio}% Guru</span></div>
+              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-green-500"></div><span className="text-sm font-medium text-on-surface dark:text-white">{userRatio}% Regular</span></div>
             </div>
           </motion.div>
 
           {/* User Growth Chart */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="card-glass p-6">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-white">User Growth</h3>
+              <h3 className="text-lg font-semibold text-on-surface dark:text-white">User Growth</h3>
               <select 
                 value={growthPeriod}
                 onChange={(e) => setGrowthPeriod(e.target.value)}
-                className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
+                className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
               >
                 <option value="all">All Time</option>
                 <option value="90d">Last 90 Days</option>
@@ -183,7 +183,7 @@ const Users = () => {
                   </LineChart>
                 </ResponsiveContainer>
               ) : growthData ? (
-                <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-white/10 rounded-xl">No sufficient data for this period</div>
+                <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-gray-200 dark:border-white/10 rounded-xl">No sufficient data for this period</div>
               ) : (
                 <div className="flex items-center justify-center h-full"><div className="spinner"></div></div>
               )}
@@ -202,7 +202,7 @@ const Users = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-surface/50 border-b border-white/5">
+              <tr className="bg-surface/50 border-b border-gray-200 dark:border-white/5">
                 <th className="py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider">User</th>
                 <th className="py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider">Role</th>
                 <th className="py-4 px-6 text-xs font-semibold text-muted uppercase tracking-wider">Status</th>
@@ -217,15 +217,15 @@ const Users = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + (i * 0.05) }}
                   key={u.id} 
-                  className="hover:bg-white/[0.02] transition-colors"
+                  className="hover:bg-gray-100/50 dark:hover:bg-white/[0.02] transition-colors"
                 >
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-surface border border-white/10 flex items-center justify-center text-primary font-bold">
+                      <div className="w-10 h-10 rounded-full bg-surface border border-gray-200 dark:border-white/10 flex items-center justify-center text-primary font-bold">
                         {u.full_name?.charAt(0).toUpperCase() || 'U'}
                       </div>
                       <div>
-                        <div className="font-medium text-white text-sm">{u.full_name}</div>
+                        <div className="font-medium text-on-surface dark:text-white text-sm">{u.full_name}</div>
                         <div className="text-xs text-muted">{u.email}</div>
                       </div>
                     </div>
@@ -256,7 +256,7 @@ const Users = () => {
                       <select 
                         value={u.role || 'user'} 
                         onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                        className="bg-surface text-white border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none focus:border-primary/50 cursor-pointer"
+                        className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none focus:border-primary/50 cursor-pointer"
                       >
                         <option value="user">User</option>
                         <option value="guru">Guru</option>
@@ -269,10 +269,6 @@ const Users = () => {
                         title="Track Activity"
                       >
                         <IconActivity size={18} />
-                      </button>
-
-                      <button className="p-1.5 text-muted hover:text-red-400 hover:bg-red-500/10 rounded-md transition-colors" title="Delete User">
-                        <IconTrash size={18} />
                       </button>
                     </div>
                   </td>
@@ -301,11 +297,11 @@ const Users = () => {
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="card-glass w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl border-white/10 bg-surface"
+              className="card-glass w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl border-gray-200 dark:border-white/10 bg-surface"
             >
-              <div className="flex items-center justify-between p-6 border-b border-white/5">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-white/5">
                 <div>
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-on-surface dark:text-white flex items-center gap-2">
                     <IconActivity className="text-primary" />
                     Activity Log
                   </h3>
@@ -313,7 +309,7 @@ const Users = () => {
                 </div>
                 <button 
                   onClick={() => setIsModalOpen(false)}
-                  className="p-2 text-muted hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                  className="p-2 text-muted hover:text-on-surface dark:text-white bg-gray-100/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors"
                 >
                   <IconX size={20} />
                 </button>
@@ -323,7 +319,7 @@ const Users = () => {
                 {loadingActivity ? (
                   <div className="flex justify-center py-12"><div className="spinner !w-8 !h-8 !border-2"></div></div>
                 ) : activities.length === 0 ? (
-                  <div className="text-center text-muted py-12 border border-dashed border-white/10 rounded-xl">
+                  <div className="text-center text-muted py-12 border border-dashed border-gray-200 dark:border-white/10 rounded-xl">
                     No activity recorded for this user yet.
                   </div>
                 ) : (
@@ -337,17 +333,17 @@ const Users = () => {
                         className="relative flex items-start group"
                       >
                         <div className="flex items-center justify-center w-5 h-5 rounded-full border-2 border-surface bg-primary shadow shrink-0 z-10 mt-1"></div>
-                        <div className="ml-4 w-full bg-background p-4 rounded-xl border border-white/5 shadow-sm group-hover:border-primary/30 transition-colors">
+                        <div className="ml-4 w-full bg-background p-4 rounded-xl border border-gray-200 dark:border-white/5 shadow-sm group-hover:border-primary/30 transition-colors">
                           <div className="flex items-center justify-between mb-2">
-                            <div className="font-semibold text-white capitalize text-sm flex items-center gap-2">
+                            <div className="font-semibold text-on-surface dark:text-white capitalize text-sm flex items-center gap-2">
                               {act.action.replace('_', ' ')}
                             </div>
-                            <time className="text-xs text-muted font-medium bg-white/5 px-2 py-1 rounded-md">
+                            <time className="text-xs text-muted font-medium bg-gray-100/50 dark:bg-white/5 px-2 py-1 rounded-md">
                               {act.time}
                             </time>
                           </div>
                           {act.detail && (
-                            <div className="text-xs text-muted bg-white/5 p-2 rounded border border-white/5 break-all">
+                            <div className="text-xs text-muted bg-gray-100/50 dark:bg-white/5 p-2 rounded border border-gray-200 dark:border-white/5 break-all">
                               {act.detail}
                             </div>
                           )}

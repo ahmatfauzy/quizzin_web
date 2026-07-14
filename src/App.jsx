@@ -10,6 +10,8 @@ import Documents from './pages/Documents';
 import QuizAnalytics from './pages/QuizAnalytics';
 import GlobalTrends from './pages/GlobalTrends';
 import Login from './pages/Login';
+import Landing from './pages/Landing';
+import PrivacyPolicy from './pages/Kebijakan';
 import StudentDetail from './pages/StudentDetail';
 import './index.css';
 
@@ -28,7 +30,7 @@ function App() {
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) return savedTheme === 'dark';
-    return true; // Default to dark mode
+    return false; // Default to light mode
   });
 
   useEffect(() => {
@@ -64,7 +66,10 @@ function App() {
     return (
       <Router>
         <Routes>
-          <Route path="*" element={<Login setAuth={setAuth} />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login setAuth={setAuth} />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     );
@@ -72,7 +77,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex h-screen bg-background overflow-hidden text-white font-sans antialiased relative">
+      <div className="flex h-screen bg-background overflow-hidden text-on-surface font-sans antialiased relative">
         {/* Mobile Overlay */}
         {isMobileSidebarOpen && (
           <div 

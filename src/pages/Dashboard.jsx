@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import SkeletonLoader from '../components/SkeletonLoader';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const StatCard = ({ title, value, trend, isUp, icon: Icon, delay }) => (
   <motion.div 
@@ -18,14 +18,14 @@ const StatCard = ({ title, value, trend, isUp, icon: Icon, delay }) => (
     <div className="flex justify-between items-start">
       <div>
         <p className="text-sm font-medium text-muted">{title}</p>
-        <h3 className="text-3xl font-bold text-white mt-1">{value}</h3>
+        <h3 className="text-3xl font-bold text-on-surface dark:text-white mt-1">{value}</h3>
       </div>
-      <div className="p-3 bg-surface rounded-xl border border-white/5">
+      <div className="p-3 bg-surface rounded-xl border border-gray-200 dark:border-white/5">
         <Icon size={24} className="text-primary" />
       </div>
     </div>
     <div className="flex items-center gap-2 mt-auto">
-      <div className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-md ${isUp ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
+      <div className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-md ${isUp ? 'bg-green-500/10 text-green-600 dark:text-green-400' : 'bg-red-500/10 text-red-600 dark:text-red-400'}`}>
         {isUp ? <IconTrendingUp size={14} /> : <IconTrendingDown size={14} />}
         {trend}%
       </div>
@@ -40,6 +40,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Quizzin Dashboard";
     const fetchData = async () => {
       try {
         const [appRes, docsRes] = await Promise.all([
@@ -71,9 +72,9 @@ const Dashboard = () => {
         className="flex justify-between items-center mb-8"
       >
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-on-surface dark:text-white flex items-center gap-3">
             Overview
-            <span className="text-sm font-normal text-muted bg-surface px-3 py-1 rounded-full border border-white/5">At a Glance</span>
+            <span className="text-sm font-normal text-muted bg-surface px-3 py-1 rounded-full border border-gray-200 dark:border-white/5">At a Glance</span>
           </h1>
           <p className="text-muted text-sm mt-2">Welcome to the Quizzin Admin Dashboard. Select an analytics menu from the sidebar for detailed charts.</p>
         </div>
@@ -96,7 +97,7 @@ const Dashboard = () => {
               transition={{ delay: 0.5 }} 
               className="card-glass p-6"
             >
-              <h3 className="text-lg font-semibold text-white mb-4">User Growth (Last 30 Days)</h3>
+              <h3 className="text-lg font-semibold text-on-surface dark:text-white mb-4">User Growth (Last 30 Days)</h3>
               <div className="h-[250px] w-full">
                 {appData.user_growth && appData.user_growth.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
@@ -109,12 +110,12 @@ const Dashboard = () => {
                       </defs>
                       <XAxis dataKey="date" stroke="#a1a1aa" tick={{fontSize: 10}} axisLine={false} tickLine={false} />
                       <YAxis stroke="#a1a1aa" tick={{fontSize: 10}} axisLine={false} tickLine={false} />
-                      <RechartsTooltip contentStyle={{ backgroundColor: '#18181b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                      <RechartsTooltip contentStyle={{ backgroundColor: 'rgb(var(--color-surface))', border: '1px solid rgba(var(--color-on-surface) / 0.1)', borderRadius: '8px' }} />
                       <Area type="monotone" dataKey="users" stroke="#10b981" fillOpacity={1} fill="url(#colorUsers)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-white/10 rounded-xl">No sufficient data for this period</div>
+                  <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-gray-200 dark:border-white/10 rounded-xl">No sufficient data for this period</div>
                 )}
               </div>
             </motion.div>
@@ -126,25 +127,25 @@ const Dashboard = () => {
               transition={{ delay: 0.6 }} 
               className="card-glass p-6 flex flex-col"
             >
-              <h3 className="text-lg font-semibold text-white mb-4">Recently Uploaded</h3>
+              <h3 className="text-lg font-semibold text-on-surface dark:text-white mb-4">Recently Uploaded</h3>
               <div className="space-y-4 flex-1">
                 {recentDocs.length === 0 ? (
-                  <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-white/10 rounded-xl py-12">No recent documents</div>
+                  <div className="flex items-center justify-center h-full text-muted text-sm border border-dashed border-gray-200 dark:border-white/10 rounded-xl py-12">No recent documents</div>
                 ) : (
                   recentDocs.map(doc => (
-                    <div key={doc.id} className="flex items-center gap-4 p-3 rounded-xl bg-surface/30 border border-white/5 hover:bg-surface/50 transition-colors">
+                    <div key={doc.id} className="flex items-center gap-4 p-3 rounded-xl bg-surface/30 border border-gray-200 dark:border-white/5 hover:bg-surface/50 transition-colors">
                       <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
                         <IconFileText size={20} />
                       </div>
                       <div className="flex-1 overflow-hidden">
-                        <h4 className="text-sm font-medium text-white truncate">{doc.title}</h4>
+                        <h4 className="text-sm font-medium text-on-surface dark:text-white truncate">{doc.title}</h4>
                         <p className="text-xs text-muted truncate">{doc.owner_name}</p>
                       </div>
                       <div className="shrink-0">
                         <span className={`px-2 py-1 rounded-full text-[10px] font-medium border ${
-                          doc.status === 'ready' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                          doc.status === 'failed' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
-                          'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
+                          doc.status === 'ready' ? 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20' :
+                          doc.status === 'failed' ? 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' :
+                          'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20'
                         }`}>
                           {doc.status.toUpperCase()}
                         </span>
