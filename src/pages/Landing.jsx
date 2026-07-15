@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const Landing = () => {
 
@@ -45,12 +46,12 @@ const Landing = () => {
     }, []);
 
     return (
-        <div className="bg-surface text-on-surface font-body-md selection:bg-primary/20 selection:text-primary min-h-screen">
+        <div className="bg-white text-on-surface font-body-md selection:bg-primary/20 selection:text-primary min-h-screen">
             <Navbar />
 
             <main>
                 {/* Hero Section */}
-                <section className="relative pt-4 pb-12 md:pt-12 md:pb-20 bg-gradient-to-br from-[#f7f9fb] to-[#dde3ff]">
+                <section className="relative pt-4 pb-12 md:pt-12 md:pb-20 bg-gradient-to-br from-white to-[#dde3ff]">
                     <div className="max-w-container-max mx-auto px-margin-mobile md:px-unit-lg">
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
                             {/* Text Content */}
@@ -195,22 +196,7 @@ const Landing = () => {
             </main>
 
             {/* Footer */}
-            <footer className="w-full py-unit-lg bg-surface-container-lowest dark:bg-surface-container-low border-t border-outline-variant">
-                <div className="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-unit-lg max-w-container-max mx-auto gap-unit-md">
-                    <div className="flex flex-col items-center md:items-start gap-2">
-                        <div className="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Quizzin</div>
-                        <p className="font-label-sm text-label-sm text-on-surface-variant">Rekan Belajar Cerdas Anda</p>
-                    </div>
-                    <div className="flex gap-unit-lg items-center">
-                        <a className="text-primary font-bold transition-all duration-200" href="#">Features</a>
-                        <a className="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all duration-200" href="#">About</a>
-                        <Link to="/privacy-policy" className="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all duration-200">Privacy Policy</Link>
-                    </div>
-                    <div className="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm">
-                        &copy; 2026 Quizzin. All rights reserved.
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 };

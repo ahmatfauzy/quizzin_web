@@ -10,6 +10,7 @@ import Documents from './pages/Documents';
 import QuizAnalytics from './pages/QuizAnalytics';
 import GlobalTrends from './pages/GlobalTrends';
 import Login from './pages/Login';
+import RegisterGuru from './pages/RegisterGuru';
 import Landing from './pages/Landing';
 import PrivacyPolicy from './pages/Kebijakan';
 import StudentDetail from './pages/StudentDetail';
@@ -68,6 +69,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login setAuth={setAuth} />} />
+          <Route path="/register-guru" element={<RegisterGuru />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

@@ -3,38 +3,36 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Login = ({ setAuth }) => {
+const RegisterGuru = () => {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API_URL}/auth/login`, { email, password });
-      const { access_token, user } = res.data;
+      const res = await axios.post(`${API_URL}/auth/register-guru`, { 
+        full_name: fullName,
+        email, 
+        password 
+      });
       
-      if (user.role !== 'admin' && user.role !== 'guru') {
-        setError('Access denied. Admin or Guru only.');
-        setLoading(false);
-        return;
-      }
-
-      localStorage.setItem('admin_token', access_token);
-      localStorage.setItem('admin_user', JSON.stringify(user));
-      
-      setAuth({ token: access_token, user: user });
-      navigate('/');
+      setSuccess('Pendaftaran berhasil! Silakan periksa kotak masuk email Anda untuk verifikasi.');
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
     } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed. Please try again.');
+      setError(err.response?.data?.detail || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -59,8 +57,8 @@ const Login = ({ setAuth }) => {
             <img src="/logo/logoblue.png" alt="Quizzin" className="h-16 object-contain mx-auto mb-6" />
           </div>
 
-          <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">Welcome Back</h2>
-          <p className="text-gray-500 mb-10 text-center">Sign in to your admin dashboard</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">Daftar Mitra Guru</h2>
+          <p className="text-gray-500 mb-10 text-center">Bergabung dan kelola kuis Anda</p>
 
           {error && (
             <motion.div 
@@ -72,7 +70,28 @@ const Login = ({ setAuth }) => {
             </motion.div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          {success && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-green-50 border border-green-200 text-green-600 p-4 rounded-xl text-sm mb-8 text-center"
+            >
+              {success}
+            </motion.div>
+          )}
+
+          <form onSubmit={handleRegister} className="space-y-6">
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-2 block">Nama Lengkap</label>
+              <input 
+                type="text" 
+                value={fullName} 
+                onChange={(e) => setFullName(e.target.value)} 
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-[15px]"
+                placeholder="Budi Santoso" 
+                required 
+              />
+            </div>
             <div>
               <label className="text-sm font-semibold text-gray-700 mb-2 block">Email Address</label>
               <input 
@@ -80,7 +99,7 @@ const Login = ({ setAuth }) => {
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
                 className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-[15px]"
-                placeholder="admin@quizzin.com" 
+                placeholder="guru@quizzin.com" 
                 required 
               />
             </div>
@@ -93,25 +112,26 @@ const Login = ({ setAuth }) => {
                 className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-[15px]"
                 placeholder="••••••••" 
                 required 
+                minLength={6}
               />
             </div>
             <button 
               type="submit" 
               className="w-full bg-primary text-white rounded-xl px-5 py-3.5 font-semibold text-[15px] hover:bg-primary/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-              disabled={loading}
+              disabled={loading || success !== ''}
             >
               {loading ? (
                 <span className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Signing in...
+                  Mendaftar...
                 </span>
-              ) : 'Sign In'}
+              ) : 'Daftar Sekarang'}
             </button>
             <div className="text-center mt-4">
               <p className="text-sm text-gray-600">
-                Belum daftar sebagai mitra guru?{' '}
-                <a href="/register-guru" className="text-primary font-semibold hover:underline">
-                  Daftar di sini
+                Sudah punya akun?{' '}
+                <a href="/login" className="text-primary font-semibold hover:underline">
+                  Login di sini
                 </a>
               </p>
             </div>
@@ -122,4 +142,4 @@ const Login = ({ setAuth }) => {
   );
 };
 
-export default Login;
+export default RegisterGuru;
