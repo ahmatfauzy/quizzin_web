@@ -18,6 +18,7 @@ const GlobalTrends = () => {
   // to satisfy the UI requirement, or add it later if the API evolves.
   const [literacyFilter, setLiteracyFilter] = useState('all');
   const [countryFilter, setCountryFilter] = useState('top10');
+  const [indonesiaFilter, setIndonesiaFilter] = useState('all');
 
   useEffect(() => {
     const fetchBigData = async () => {
@@ -54,6 +55,14 @@ const GlobalTrends = () => {
     return data;
   };
 
+  const getIndonesiaData = () => {
+    if (!bigData?.indonesia_trend) return [];
+    let data = [...bigData.indonesia_trend];
+    if (indonesiaFilter === 'last10') data = data.filter(d => parseInt(d.year) >= 2013);
+    if (indonesiaFilter === 'last5') data = data.filter(d => parseInt(d.year) >= 2018);
+    return data;
+  };
+
   return (
     <div className="p-8">
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -74,7 +83,7 @@ const GlobalTrends = () => {
               onChange={(e) => setLiteracyFilter(e.target.value)}
               className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
             >
-              <option value="all">2000 - 2023</option>
+              <option value="all">2000 - Present</option>
               <option value="last10">Last 10 Years</option>
               <option value="last5">Last 5 Years</option>
             </select>
@@ -122,6 +131,43 @@ const GlobalTrends = () => {
                   <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{ backgroundColor: '#18181b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
                   <Bar dataKey="rate" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={20} />
                 </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex items-center justify-center h-full text-muted">No data available</div>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Indonesia Trend */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="card-glass p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h3 className="text-lg font-semibold text-on-surface dark:text-white">Indonesia Literacy Trend</h3>
+              <p className="text-xs text-muted">Historical literacy rates for Indonesia</p>
+            </div>
+            <select 
+              value={indonesiaFilter}
+              onChange={(e) => setIndonesiaFilter(e.target.value)}
+              className="bg-surface text-on-surface dark:text-white border border-gray-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none cursor-pointer"
+            >
+              <option value="all">2000 - Present</option>
+              <option value="last10">Last 10 Years</option>
+              <option value="last5">Last 5 Years</option>
+            </select>
+          </div>
+          <div className="h-[300px] w-full">
+            {getIndonesiaData().length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={getIndonesiaData()} margin={{ top: 5, right: 0, left: -20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="year" stroke="#a1a1aa" tick={{fontSize: 12}} axisLine={false} tickLine={false} />
+                  <YAxis stroke="#a1a1aa" tick={{fontSize: 12}} domain={['auto', 'auto']} axisLine={false} tickLine={false} />
+                  <RechartsTooltip 
+                    contentStyle={{ backgroundColor: '#18181b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
+                    itemStyle={{ color: '#ef4444' }}
+                  />
+                  <Line type="monotone" dataKey="rate" stroke="#ef4444" strokeWidth={3} dot={false} activeDot={{ r: 6, fill: '#ef4444', stroke: '#18181b', strokeWidth: 2 }} />
+                </LineChart>
               </ResponsiveContainer>
             ) : (
               <div className="flex items-center justify-center h-full text-muted">No data available</div>
